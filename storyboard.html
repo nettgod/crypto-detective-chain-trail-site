@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Crypto Detective 8-bit Storyboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="storyboard.css">
+  </head>
+  <body>
+    <header class="game-hero">
+      <div class="hero-copy">
+        <span class="pixel-label">NEW CONCEPT</span>
+        <h1>Crypto Detective: Chain Trail</h1>
+        <p>เกมสืบสวน 8-bit top-down ที่ผู้เล่นรับบทตำรวจไซเบอร์ ไล่เส้นทางเงินจาก clue แรกจนถึง VASP report และสรุปคดีปิดท้าย</p>
+      </div>
+      <div class="gameboy-frame" aria-label="Game preview">
+        <div class="screen">
+          <div class="office-scene">
+            <div class="chief sprite"></div>
+            <div class="detective sprite"></div>
+            <div class="desk"></div>
+            <div class="evidence-board"></div>
+          </div>
+          <div class="dialog-box">
+            <strong>ผู้กำกับ:</strong> มีเส้นทางเงินข้าม chain ต้องตามให้ถึงปลายทางก่อนหลักฐานหาย
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="storyboard">
+      <section class="summary-panel">
+        <div>
+          <span class="pixel-label">GAME LOOP</span>
+          <h2>เดินสำรวจ → คุยกับ NPC → เปิด evidence → ตอบ checkpoint → unlock ฉากต่อไป</h2>
+        </div>
+        <div class="summary-grid">
+          <div><strong>Genre</strong><span>8-bit investigation RPG</span></div>
+          <div><strong>Role</strong><span>ตำรวจสืบสวนคดี crypto</span></div>
+          <div><strong>Core</strong><span>Evidence-first CTF</span></div>
+          <div><strong>End</strong><span>Final case report</span></div>
+        </div>
+      </section>
+
+      <section class="chapter-map" aria-label="Chapter map">
+        <button class="chapter active" data-scene="0">01 Chief</button>
+        <button class="chapter" data-scene="1">02 Binance</button>
+        <button class="chapter" data-scene="2">03 BSC</button>
+        <button class="chapter" data-scene="3">04 Ethereum</button>
+        <button class="chapter" data-scene="4">05 Polygon</button>
+        <button class="chapter" data-scene="5">06 Victim</button>
+        <button class="chapter" data-scene="6">07 Suspect</button>
+        <button class="chapter" data-scene="7">08 VASP</button>
+        <button class="chapter" data-scene="8">09 Report</button>
+      </section>
+
+      <section class="scene-reader">
+        <div class="scene-screen" id="sceneScreen">
+          <div class="pixel-world" id="pixelWorld"></div>
+          <div class="dialog-box large" id="sceneDialog"></div>
+        </div>
+        <aside class="scene-notes">
+          <span class="pixel-label" id="sceneCode">SCENE 01</span>
+          <h2 id="sceneTitle"></h2>
+          <p id="sceneGoal"></p>
+          <div class="note-block">
+            <h3>Player Action</h3>
+            <ul id="sceneActions"></ul>
+          </div>
+          <div class="note-block">
+            <h3>Checkpoint</h3>
+            <p id="sceneCheckpoint"></p>
+          </div>
+          <div class="note-block">
+            <h3>Unlock</h3>
+            <p id="sceneUnlock"></p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="full-board">
+        <div class="board-head">
+          <span class="pixel-label">FULL STORYBOARD</span>
+          <h2>บทตั้งแต่ต้นจนจบ</h2>
+        </div>
+        <div class="card-grid" id="cardGrid"></div>
+      </section>
+    </main>
+
+    <script src="storyboard.js"></script>
+  </body>
+</html>

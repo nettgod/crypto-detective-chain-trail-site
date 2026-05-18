@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Crypto Detective Course Flow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="quiz.css">
+  </head>
+  <body>
+    <main class="flow-shell">
+      <section class="course-hero">
+        <div>
+          <span class="pixel-label">TRAINING FLOW</span>
+          <h1>Crypto Detective Academy</h1>
+          <p>ช่วงแรกผู้สอนปูพื้นฐานเอง จากนั้นผู้เรียนทำ Quiz 15 ข้อเพื่อปลดล็อกเกมสืบสวน Chain Trail</p>
+        </div>
+        <div class="flow-card">
+          <div class="step done">
+            <span>1</span>
+            <strong>Instructor Briefing</strong>
+            <p>พื้นฐาน crypto investigation, explorer, evidence standard</p>
+          </div>
+          <div class="step active">
+            <span>2</span>
+            <strong>Readiness Quiz</strong>
+            <p>15 questions ก่อนเข้าเกม</p>
+          </div>
+          <div class="step locked">
+            <span>3</span>
+            <strong>Investigation Game</strong>
+            <p>8-bit police case walkthrough</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="brief-panel">
+        <div>
+          <span class="pixel-label">PART 1</span>
+          <h2>พื้นฐานที่ผู้สอนปูก่อน Quiz</h2>
+          <ul>
+            <li>อ่าน transaction และ address บน public explorer</li>
+            <li>แยก native coin, token transfer, approval, swap และ bridge</li>
+            <li>ตั้งมาตรฐาน evidence: chain, tx hash, block, value, reasoning</li>
+            <li>ระวัง attribution overclaim จาก NFT username หรือ KYC ที่ยังไม่ verify</li>
+          </ul>
+        </div>
+        <button class="pixel-btn" id="startQuizBtn" type="button">START QUIZ</button>
+      </section>
+
+      <section class="quiz-panel" id="quizPanel" hidden>
+        <div class="quiz-head">
+          <div>
+            <span class="pixel-label">PART 2</span>
+            <h2>Readiness Quiz</h2>
+            <p>เลือกคำตอบที่ดีที่สุด ต้องได้อย่างน้อย 12/15 เพื่อปลดล็อกเกม</p>
+          </div>
+          <div class="score-badge">
+            <small>Score</small>
+            <strong id="liveScore">0/15</strong>
+          </div>
+        </div>
+        <form id="quizForm" class="quiz-form"></form>
+        <div class="quiz-actions">
+          <button class="pixel-btn" type="submit" form="quizForm">SUBMIT QUIZ</button>
+          <button class="pixel-btn secondary" id="resetQuizBtn" type="button">RESET</button>
+        </div>
+        <div class="result-panel" id="resultPanel" hidden></div>
+      </section>
+
+      <section class="game-unlock" id="gameUnlock" hidden>
+        <span class="pixel-label">PART 3</span>
+        <h2>เกมสืบสวนปลดล็อกแล้ว</h2>
+        <p>ผู้เล่นรับบทตำรวจสืบสวน เดินคุยกับ NPC เก็บ evidence และไล่เส้นทางเงินไปทีละฉาก</p>
+        <div class="unlock-actions">
+          <a class="pixel-btn link" href="game.html">ENTER GAME</a>
+          <a class="pixel-btn secondary link" href="storyboard.html">VIEW STORYBOARD</a>
+        </div>
+      </section>
+    </main>
+
+    <template id="questionTemplate">
+      <fieldset class="question-card">
+        <legend></legend>
+        <div class="choices"></div>
+        <p class="explain" hidden></p>
+      </fieldset>
+    </template>
+
+    <script src="quiz.js"></script>
+  </body>
+</html>

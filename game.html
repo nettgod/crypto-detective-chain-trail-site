@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Crypto Detective: Chain Trail</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="game.css?v=20260519-thai1">
+  </head>
+  <body>
+    <div class="guide-overlay" id="guideOverlay">
+      <div class="guide-card">
+        <div>
+          <span class="pixel-kicker">Field Manual</span>
+          <h2 id="guideTitle">Crypto Detective: Chain Trail</h2>
+        </div>
+
+        <div class="guide-grid">
+          <section>
+            <h3>จุดมุ่งหมาย</h3>
+            <p>ไล่เส้นทางเงินจากเบาะแสแรกไปจนถึงปลายทาง เก็บ Evidence File ในแต่ละห้อง แล้วตอบ Checkpoint ให้ผ่านก่อนเปิดประตูไปห้องถัดไป</p>
+          </section>
+          <section>
+            <h3>ปุ่มควบคุม</h3>
+            <p><kbd>WASD</kbd> / <kbd>Arrow</kbd> เดิน</p>
+            <p><kbd>E</kbd> คุยกับ NPC / ตรวจแฟ้มหลักฐาน</p>
+            <p><kbd>M</kbd> หรือปุ่ม <kbd>MAP</kbd> เปิดแผนที่</p>
+            <p><kbd>Enter</kbd> เลื่อนบทสนทนา</p>
+          </section>
+          <section>
+            <h3>ต้องกดตรงไหน</h3>
+            <p>เดินไปใกล้ NPC หรือแฟ้มสีเหลืองแล้วกด <kbd>E</kbd> เพื่อคุยหรือเปิด Evidence File</p>
+            <p>แฟ้มที่เก็บแล้วจะอยู่ใน Evidence Log ใต้จอเกม กดชื่อแฟ้มเพื่อเปิดดูซ้ำได้</p>
+          </section>
+          <section>
+            <h3>การผ่านด่าน</h3>
+            <p>ตอบ Checkpoint ให้ถูกทุกข้อ ประตูขวาจะเปิดเพื่อไปห้องถัดไป ประตูซ้ายใช้เดินย้อนกลับไปห้องก่อนหน้า</p>
+            <p>แผนที่แสดงห้องปัจจุบัน ห้องที่เก็บหลักฐานแล้ว และห้องที่ผ่านแล้ว</p>
+          </section>
+        </div>
+
+        <button class="pixel-small primary guide-primary" id="guidePrimary" type="button">Start Investigation</button>
+      </div>
+    </div>
+
+    <button class="manual-fab" id="manualToggle" type="button" hidden>คู่มือ</button>
+
+    <div class="game-shell">
+      <aside class="case-panel">
+        <div class="case-logo">
+          <span>CD</span>
+          <div>
+            <h1>Crypto Detective</h1>
+            <p>Chain Trail Prototype</p>
+          </div>
+        </div>
+
+        <div class="stat-box">
+          <div>
+            <small>Scene</small>
+            <strong id="sceneStat">1/9</strong>
+          </div>
+          <div>
+            <small>Evidence</small>
+            <strong id="evidenceStat">0</strong>
+          </div>
+        </div>
+
+        <div class="stage-list" id="stageList"></div>
+
+        <div class="controls">
+          <h2>Controls</h2>
+          <p><kbd>WASD</kbd> / <kbd>Arrow</kbd> เดิน</p>
+          <p><kbd>E</kbd> คุย / ตรวจหลักฐาน</p>
+          <p><kbd>M</kbd> เปิดแผนที่</p>
+          <p><kbd>Enter</kbd> เลื่อนบทสนทนา</p>
+        </div>
+      </aside>
+
+      <main class="play-area">
+        <header class="game-top">
+          <div>
+            <span class="pixel-kicker" id="sceneCode">SCENE 01</span>
+            <h2 id="sceneTitle">Chief's Office</h2>
+          </div>
+          <div class="objective-card">
+            <small>Objective</small>
+            <strong id="objectiveText">อ่านแฟ้มคดี</strong>
+          </div>
+        </header>
+
+        <section class="console">
+          <canvas id="gameCanvas" width="640" height="480" tabindex="0" aria-label="Playable 8-bit game canvas"></canvas>
+          <div class="scanlines"></div>
+          <div class="toast" id="toast">กด E เพื่อคุย</div>
+          <div class="dialogue" id="dialogue" hidden>
+            <strong id="dialogueSpeaker">ผู้กำกับ</strong>
+            <p id="dialogueText"></p>
+            <button id="dialogueNext" type="button">NEXT</button>
+          </div>
+          <div class="touch-controls" aria-label="On-screen controls">
+            <button type="button" data-control="up">▲</button>
+            <button type="button" data-control="left">◀</button>
+            <button type="button" data-control="interact">E</button>
+            <button type="button" data-control="right">▶</button>
+            <button type="button" data-control="down">▼</button>
+            <button type="button" data-control="map">MAP</button>
+          </div>
+        </section>
+
+        <section class="evidence-dock">
+          <div>
+            <span class="pixel-kicker">Evidence Log</span>
+            <h3>หลักฐานที่เก็บแล้ว</h3>
+          </div>
+          <ol id="evidenceLog"></ol>
+        </section>
+      </main>
+    </div>
+
+    <div class="dossier" id="dossier" hidden>
+      <div class="dossier-card">
+        <div class="dossier-head">
+          <div>
+            <span class="pixel-kicker" id="dossierCode">EVIDENCE</span>
+            <h2 id="dossierTitle">Case File</h2>
+          </div>
+          <button class="pixel-small" id="closeDossier" type="button">CLOSE</button>
+        </div>
+        <div class="dossier-body">
+          <section>
+            <h3>Evidence Detail</h3>
+            <div id="evidenceDetail"></div>
+          </section>
+          <section>
+            <h3>คำถาม Checkpoint</h3>
+            <form id="checkpointForm"></form>
+            <div class="checkpoint-actions">
+              <button class="pixel-small primary" type="submit" form="checkpointForm">SUBMIT</button>
+              <span id="checkpointResult"></span>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <script src="game.js?v=20260519-thai1"></script>
+  </body>
+</html>
