@@ -873,6 +873,32 @@ const assetPropSprites = {
   assetWoodCabinet: { sx: 224, sy: 32, sw: 32, sh: 48, dy: -8 }
 };
 
+const assetTileSprites = {
+  woodFloor: { sx: 48, sy: 80 },
+  warmFloor: { sx: 96, sy: 64 },
+  greenFloor: { sx: 96, sy: 80 },
+  mintFloor: { sx: 192, sy: 64 },
+  purpleFloor: { sx: 208, sy: 80 },
+  stoneFloor: { sx: 0, sy: 160 },
+  woodWall: { sx: 96, sy: 0 },
+  purpleWall: { sx: 32, sy: 48 },
+  greenWall: { sx: 208, sy: 48 },
+  mintWall: { sx: 272, sy: 48 },
+  stoneWall: { sx: 0, sy: 192 }
+};
+
+const roomThemes = [
+  { floor: "woodFloor", wall: "purpleWall" },
+  { floor: "warmFloor", wall: "woodWall" },
+  { floor: "mintFloor", wall: "greenWall" },
+  { floor: "greenFloor", wall: "mintWall" },
+  { floor: "woodFloor", wall: "purpleWall" },
+  { floor: "stoneFloor", wall: "stoneWall" },
+  { floor: "warmFloor", wall: "woodWall" },
+  { floor: "mintFloor", wall: "greenWall" },
+  { floor: "woodFloor", wall: "woodWall" }
+];
+
 const sceneText = [
   {
     name: "Lead Office",
@@ -1848,15 +1874,34 @@ function drawTile(x, y, color) {
   ctx.strokeRect(x * TILE, y * TILE, TILE, TILE);
 }
 
+function drawAssetTile(x, y, tileName, fallback) {
+  const tile = assetTileSprites[tileName];
+  if (!tile || !propsSheet.complete || !propsSheet.naturalWidth) {
+    drawTile(x, y, fallback);
+    return;
+  }
+  ctx.drawImage(propsSheet, tile.sx, tile.sy, 16, 16, x * TILE, y * TILE, TILE, TILE);
+  ctx.strokeStyle = "rgba(17,25,35,0.08)";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(x * TILE, y * TILE, TILE, TILE);
+}
+
 function drawScene() {
   const scene = scenes[state.scene];
   const room = scene.room || defaultRoom;
+  const theme = roomThemes[state.scene] || roomThemes[0];
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (let y = 0; y < 15; y += 1) {
     for (let x = 0; x < 20; x += 1) {
       const inside = x >= room.x && x < room.x + room.w && y >= room.y && y < room.y + room.h;
       const wall = x === room.x || x === room.x + room.w - 1 || y === room.y || y === room.y + room.h - 1;
-      drawTile(x, y, inside ? (wall && !isDoorTile(x, y, scene) ? scene.wall : scene.floor) : "#0e1721");
+      if (!inside) {
+        drawTile(x, y, "#0e1721");
+      } else if (wall && !isDoorTile(x, y, scene)) {
+        drawAssetTile(x, y, theme.wall, scene.wall);
+      } else {
+        drawAssetTile(x, y, theme.floor, scene.floor);
+      }
     }
   }
 
@@ -2149,27 +2194,61 @@ function drawNpc(npc) {
   drawSprite(npc.char, "down", 1, npc.x * TILE + 4, npc.y * TILE);
 }
 
-function truncateTag(value, limit = 18) {
-  return value.length > limit ? `${value.slice(0, limit - 1)}...` : value;
-}
-
 function drawTag(tileX, tileY, label, variant) {
-  const tagText = truncateTag(label);
   ctx.save();
   ctx.font = "700 11px IBM Plex Sans Thai, sans-serif";
-  const paddingX = 6;
-  const width = Math.min(154, Math.max(60, ctx.measureText(tagText).width + paddingX * 2));
-  const height = 22;
+  const paddingX = 7;
+  const maxTextWidth = variant === "evidence" ? 218 : 188;
+  const lines = wrapCanvasText(label, maxTextWidth);
+  const textWidth = Math.max(...lines.map((line) => ctx.measureText(line).width));
+  const width = Math.min(maxTextWidth + paddingX * 2, Math.max(70, textWidth + paddingX * 2));
+  const lineHeight = 13;
+  const height = lines.length * lineHeight + 10;
   const x = Math.max(6, Math.min(canvas.width - width - 6, tileX * TILE + TILE / 2 - width / 2));
-  const y = Math.max(6, tileY * TILE - 24);
+  const y = Math.max(6, tileY * TILE - height - 5);
   ctx.fillStyle = variant === "evidence" ? "#f4cb5f" : "#fff8db";
   ctx.strokeStyle = "#17212b";
   ctx.lineWidth = 3;
   ctx.fillRect(x, y, width, height);
   ctx.strokeRect(x + 1, y + 1, width - 2, height - 2);
   ctx.fillStyle = "#111923";
-  ctx.fillText(tagText, x + paddingX, y + 15);
+  lines.forEach((line, index) => {
+    ctx.fillText(line, x + paddingX, y + 15 + index * lineHeight);
+  });
   ctx.restore();
+}
+
+function wrapCanvasText(label, maxWidth) {
+  const words = String(label).split(/(\s+)/).filter(Boolean);
+  const lines = [];
+  let line = "";
+
+  const pushLongToken = (token) => {
+    let chunk = "";
+    for (const char of token) {
+      const candidate = chunk + char;
+      if (chunk && ctx.measureText(candidate).width > maxWidth) {
+        lines.push(chunk);
+        chunk = char;
+      } else {
+        chunk = candidate;
+      }
+    }
+    return chunk;
+  };
+
+  words.forEach((word) => {
+    const candidate = line + word;
+    if (ctx.measureText(candidate).width <= maxWidth) {
+      line = candidate;
+      return;
+    }
+    if (line.trim()) lines.push(line.trim());
+    line = ctx.measureText(word).width > maxWidth ? pushLongToken(word) : word.trimStart();
+  });
+
+  if (line.trim()) lines.push(line.trim());
+  return lines.length ? lines : [String(label)];
 }
 
 function drawEntityTags(scene) {
