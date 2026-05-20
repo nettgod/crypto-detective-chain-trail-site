@@ -21,6 +21,7 @@ This folder keeps the 8-bit RPG version separate from the main web CTF.
 - game unlock gate at 12/15
 - 9 scenes mapped from the crypto investigation workshop
 - custom pixel character sprites in `assets/characters.png`
+- CC0 prop sprites in `assets/props-modern-houses.png`
 - playable top-down movement
 - NPC dialogue
 - evidence collection
@@ -41,5 +42,6 @@ Character sprites are custom-made for this prototype. The design direction was r
 - OpenGameArt: RPG character sprites by GrafxKid
 - OpenGameArt: Top down player sprite sheet (Julia) by ArlanTR
 - OpenGameArt: Hero character sprite sheet by Fry
+- OpenGameArt: "Modern Houses" Tileset TopDown by Ritpop (CC0) for room prop decoration
 
-No third-party sprite image was copied into this project.
+No third-party character sprite image was copied into this project. Prop decoration uses the CC0 Modern Houses tileset noted above.

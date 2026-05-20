@@ -5,6 +5,8 @@ ctx.imageSmoothingEnabled = false;
 
 const sprites = new Image();
 sprites.src = "assets/characters.png";
+const propsSheet = new Image();
+propsSheet.src = "assets/props-modern-houses.png";
 
 const sceneStat = document.getElementById("sceneStat");
 const evidenceStat = document.getElementById("evidenceStat");
@@ -850,6 +852,27 @@ const roomSpawns = {
   fromNext: { x: 16, y: 7, dir: "left" }
 };
 
+const assetPropSprites = {
+  assetBookshelf: { sx: 32, sy: 0, sw: 64, sh: 32 },
+  assetWideShelf: { sx: 32, sy: 64, sw: 96, sh: 48, dy: -8 },
+  assetCabinet: { sx: 320, sy: 32, sw: 64, sh: 48, dy: -6 },
+  assetComputer: { sx: 320, sy: 80, sw: 32, sh: 64, dy: -16 },
+  assetPlantA: { sx: 384, sy: 0, sw: 32, sh: 48, dy: -16 },
+  assetPlantB: { sx: 416, sy: 0, sw: 24, sh: 48, dx: 4, dy: -16 },
+  assetWhiteTable: { sx: 288, sy: 80, sw: 64, sh: 32 },
+  assetRedSofa: { sx: 288, sy: 112, sw: 64, sh: 32 },
+  assetTallLocker: { sx: 352, sy: 80, sw: 32, sh: 64, dy: -16 },
+  assetWallFrame: { sx: 288, sy: 0, sw: 32, sh: 32 },
+  assetPhotoFrame: { sx: 320, sy: 0, sw: 32, sh: 32 },
+  assetModernBed: { sx: 96, sy: 112, sw: 96, sh: 48 },
+  assetStairs: { sx: 128, sy: 160, sw: 64, sh: 96, dy: -24 },
+  assetTrashBin: { sx: 96, sy: 160, sw: 32, sh: 32 },
+  assetKitchenBlock: { sx: 288, sy: 32, sw: 64, sh: 48, dy: -6 },
+  assetLongCounter: { sx: 192, sy: 128, sw: 96, sh: 32 },
+  assetSmallCabinet: { sx: 160, sy: 192, sw: 64, sh: 64, dy: -16 },
+  assetWoodCabinet: { sx: 224, sy: 32, sw: 32, sh: 48, dy: -8 }
+};
+
 const sceneText = [
   {
     name: "Lead Office",
@@ -1277,55 +1300,82 @@ const sceneDetailProps = [
   [
     { type: "chart", x: 13, y: 5, w: 2, h: 1, block: false },
     { type: "fileStack", x: 4, y: 9, w: 1, h: 1, block: false },
-    { type: "pinLine", x: 5, y: 10, w: 3, h: 1, block: false }
+    { type: "pinLine", x: 5, y: 10, w: 3, h: 1, block: false },
+    { type: "assetBookshelf", x: 3, y: 3, w: 2, h: 1, block: false },
+    { type: "assetPlantA", x: 15, y: 10, w: 1, h: 1, block: false },
+    { type: "assetWallFrame", x: 13, y: 4, w: 1, h: 1, block: false }
   ],
   [
     { type: "coinPile", x: 10, y: 7, w: 1, h: 1, block: false },
     { type: "banner", x: 5, y: 3, w: 5, h: 1, block: false },
     { type: "paper", x: 12, y: 4, w: 1, h: 1, block: false },
-    { type: "scanner", x: 14, y: 6, w: 1, h: 1, block: false }
+    { type: "scanner", x: 14, y: 6, w: 1, h: 1, block: false },
+    { type: "assetKitchenBlock", x: 13, y: 5, w: 2, h: 2, block: false },
+    { type: "assetWhiteTable", x: 5, y: 9, w: 2, h: 1, block: false },
+    { type: "assetPlantB", x: 15, y: 9, w: 1, h: 1, block: false }
   ],
   [
     { type: "cable", x: 6, y: 8, w: 5, h: 1, block: false },
     { type: "stationLight", x: 15, y: 4, w: 1, h: 1, block: false },
     { type: "router", x: 5, y: 7, w: 1, h: 1, block: false },
-    { type: "paper", x: 13, y: 9, w: 1, h: 1, block: false }
+    { type: "paper", x: 13, y: 9, w: 1, h: 1, block: false },
+    { type: "assetComputer", x: 14, y: 5, w: 1, h: 2, block: false },
+    { type: "assetLongCounter", x: 7, y: 10, w: 3, h: 1, block: false },
+    { type: "assetCabinet", x: 4, y: 4, w: 2, h: 2, block: false }
   ],
   [
     { type: "spotlight", x: 5, y: 5, w: 1, h: 1, block: false },
     { type: "rope", x: 4, y: 8, w: 3, h: 1, block: false },
     { type: "statue", x: 14, y: 8, w: 1, h: 1, block: false },
-    { type: "poster", x: 12, y: 3, w: 2, h: 1, block: false }
+    { type: "poster", x: 12, y: 3, w: 2, h: 1, block: false },
+    { type: "assetPhotoFrame", x: 4, y: 4, w: 1, h: 1, block: false },
+    { type: "assetPhotoFrame", x: 10, y: 4, w: 1, h: 1, block: false },
+    { type: "assetPlantA", x: 15, y: 5, w: 1, h: 1, block: false }
   ],
   [
     { type: "brokenPhone", x: 13, y: 6, w: 1, h: 1, block: false },
     { type: "paper", x: 8, y: 5, w: 1, h: 1, block: false },
     { type: "lamp", x: 15, y: 4, w: 1, h: 1, block: false },
-    { type: "fileStack", x: 5, y: 7, w: 1, h: 1, block: false }
+    { type: "fileStack", x: 5, y: 7, w: 1, h: 1, block: false },
+    { type: "assetModernBed", x: 4, y: 9, w: 3, h: 2, block: false },
+    { type: "assetSmallCabinet", x: 13, y: 8, w: 2, h: 2, block: false },
+    { type: "assetTrashBin", x: 4, y: 4, w: 1, h: 1, block: false }
   ],
   [
     { type: "neon", x: 6, y: 4, w: 4, h: 1, block: false },
     { type: "puddle", x: 10, y: 10, w: 2, h: 1, block: false },
     { type: "trash", x: 15, y: 7, w: 1, h: 1, block: false },
-    { type: "chainPost", x: 4, y: 6, w: 1, h: 1, block: false }
+    { type: "chainPost", x: 4, y: 6, w: 1, h: 1, block: false },
+    { type: "assetTallLocker", x: 14, y: 5, w: 1, h: 2, block: false },
+    { type: "assetRedSofa", x: 7, y: 10, w: 2, h: 1, block: false },
+    { type: "assetPlantB", x: 5, y: 10, w: 1, h: 1, block: false }
   ],
   [
     { type: "stamp", x: 12, y: 6, w: 1, h: 1, block: false },
     { type: "safe", x: 15, y: 10, w: 1, h: 1, block: false },
     { type: "fileStack", x: 8, y: 8, w: 1, h: 1, block: false },
-    { type: "paper", x: 5, y: 6, w: 1, h: 1, block: false }
+    { type: "paper", x: 5, y: 6, w: 1, h: 1, block: false },
+    { type: "assetCabinet", x: 14, y: 4, w: 2, h: 2, block: false },
+    { type: "assetWhiteTable", x: 5, y: 9, w: 2, h: 1, block: false },
+    { type: "assetBookshelf", x: 4, y: 3, w: 2, h: 1, block: false }
   ],
   [
     { type: "chart", x: 6, y: 5, w: 2, h: 1, block: false },
     { type: "fileStack", x: 12, y: 5, w: 1, h: 1, block: false },
     { type: "terminal", x: 9, y: 10, w: 1, h: 1, block: false },
-    { type: "paper", x: 10, y: 7, w: 1, h: 1, block: false }
+    { type: "paper", x: 10, y: 7, w: 1, h: 1, block: false },
+    { type: "assetComputer", x: 14, y: 5, w: 1, h: 2, block: false },
+    { type: "assetWideShelf", x: 5, y: 10, w: 3, h: 2, block: false },
+    { type: "assetWoodCabinet", x: 12, y: 8, w: 1, h: 2, block: false }
   ],
   [
     { type: "pinLine", x: 5, y: 5, w: 4, h: 1, block: false },
     { type: "evidenceTape", x: 12, y: 8, w: 3, h: 1, block: false },
     { type: "fileStack", x: 5, y: 10, w: 1, h: 1, block: false },
-    { type: "lamp", x: 15, y: 10, w: 1, h: 1, block: false }
+    { type: "lamp", x: 15, y: 10, w: 1, h: 1, block: false },
+    { type: "assetRedSofa", x: 6, y: 10, w: 2, h: 1, block: false },
+    { type: "assetBookshelf", x: 13, y: 4, w: 2, h: 1, block: false },
+    { type: "assetPlantA", x: 4, y: 9, w: 1, h: 1, block: false }
   ]
 ];
 
@@ -1626,8 +1676,7 @@ const uiText = {
     mapTitle: "CASE MAP",
     mapHelp: "M/E/Enter/Space ปิดแผนที่  |  ประตูซ้ายย้อนกลับ  |  ประตูขวาไปต่อเมื่อผ่าน checkpoint",
     npcTag: "NPC",
-    evidenceTag: "แฟ้ม",
-    interactPrompt: "E / Enter / Space"
+    evidenceTag: "แฟ้ม"
   },
   en: {
     htmlLang: "en",
@@ -1688,8 +1737,7 @@ const uiText = {
     mapTitle: "CASE MAP",
     mapHelp: "M/E/Enter/Space close map  |  left door backtracks  |  right door opens after checkpoint",
     npcTag: "NPC",
-    evidenceTag: "EVIDENCE",
-    interactPrompt: "E / Enter / Space"
+    evidenceTag: "EVIDENCE"
   }
 };
 
@@ -1817,7 +1865,6 @@ function drawScene() {
   drawNpc(scene.npc);
   drawPlayer();
   drawEntityTags(scene);
-  drawInteractionHint(scene);
   if (state.mapOpen) drawWorldMap();
 }
 
@@ -1834,7 +1881,21 @@ function drawRectTile(x, y, w, h, fill, stroke = "#17212b", line = 4) {
   ctx.strokeRect(x * TILE + 2, y * TILE + 2, w * TILE - 4, h * TILE - 4);
 }
 
+function drawAssetProp(prop) {
+  const sprite = assetPropSprites[prop.type];
+  if (!sprite) return false;
+  if (!propsSheet.complete || !propsSheet.naturalWidth) return true;
+  const targetW = sprite.dw || prop.w * TILE;
+  const targetH = sprite.dh || prop.h * TILE;
+  const x = prop.x * TILE + (sprite.dx || 0);
+  const y = prop.y * TILE + (sprite.dy || 0);
+  ctx.drawImage(propsSheet, sprite.sx, sprite.sy, sprite.sw, sprite.sh, x, y, targetW, targetH);
+  return true;
+}
+
 function drawProp(prop) {
+  if (drawAssetProp(prop)) return;
+
   const base = {
     desk: "#e8dfb0",
     counter: "#d9c480",
@@ -2114,29 +2175,6 @@ function drawTag(tileX, tileY, label, variant) {
 function drawEntityTags(scene) {
   drawTag(scene.npc.x, scene.npc.y, `${text("npcTag")}: ${scene.npc.name}`, "npc");
   drawTag(scene.clue.x, scene.clue.y, `${text("evidenceTag")}: ${scene.clue.label}`, "evidence");
-}
-
-function drawInteractionHint(scene) {
-  if (!dialogue.hidden || !dossier.hidden || state.mapOpen || !guideOverlay.hidden) return;
-  const p = state.player;
-  const target = near(p, scene.npc) ? scene.npc : near(p, scene.clue) ? scene.clue : null;
-  if (!target) return;
-  const label = text("interactPrompt");
-  ctx.save();
-  ctx.font = "700 10px 'Press Start 2P', 'IBM Plex Sans Thai', monospace";
-  const width = Math.min(196, ctx.measureText(label).width + 20);
-  const x = Math.max(8, Math.min(canvas.width - width - 8, target.x * TILE + TILE / 2 - width / 2));
-  const y = Math.min(canvas.height - 34, target.y * TILE + TILE + 6);
-  ctx.fillStyle = "#111923";
-  ctx.fillRect(x + 4, y + 4, width, 24);
-  ctx.fillStyle = "#f4cb5f";
-  ctx.strokeStyle = "#fff8db";
-  ctx.lineWidth = 3;
-  ctx.fillRect(x, y, width, 24);
-  ctx.strokeRect(x + 1, y + 1, width - 2, 22);
-  ctx.fillStyle = "#111923";
-  ctx.fillText(label, x + 10, y + 16);
-  ctx.restore();
 }
 
 function drawPlayer() {
