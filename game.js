@@ -27,9 +27,23 @@ const checkpointForm = document.getElementById("checkpointForm");
 const checkpointResult = document.getElementById("checkpointResult");
 const closeDossier = document.getElementById("closeDossier");
 const guideOverlay = document.getElementById("guideOverlay");
+const guideKicker = document.getElementById("guideKicker");
 const guideTitle = document.getElementById("guideTitle");
+const guideGrid = document.getElementById("guideGrid");
 const guidePrimary = document.getElementById("guidePrimary");
+const guideLanguageToggle = document.getElementById("guideLanguageToggle");
 const manualToggle = document.getElementById("manualToggle");
+const languageToggle = document.getElementById("languageToggle");
+const controlsPanel = document.querySelector(".controls");
+const evidenceDetailHeading = document.getElementById("evidenceDetailHeading");
+const checkpointHeading = document.getElementById("checkpointHeading");
+const checkpointSubmit = document.getElementById("checkpointSubmit");
+const logoSubtitle = document.getElementById("logoSubtitle");
+const sceneStatLabel = document.getElementById("sceneStatLabel");
+const evidenceStatLabel = document.getElementById("evidenceStatLabel");
+const objectiveLabel = document.getElementById("objectiveLabel");
+const evidenceLogKicker = document.getElementById("evidenceLogKicker");
+const touchInteract = document.getElementById("touchInteract");
 
 const charRows = {
   detective: 0,
@@ -1192,6 +1206,133 @@ roomLayouts.forEach((layout, index) => {
   };
 });
 
+const extraRoomProps = [
+  [
+    { type: "chair", x: 8, y: 7, w: 1, h: 1, block: false },
+    { type: "paper", x: 12, y: 8, w: 1, h: 1, block: false },
+    { type: "lamp", x: 15, y: 10, w: 1, h: 1, block: false },
+    { type: "evidenceTape", x: 5, y: 4, w: 3, h: 1, block: false }
+  ],
+  [
+    { type: "chair", x: 6, y: 6, w: 1, h: 1, block: false },
+    { type: "scanner", x: 11, y: 6, w: 1, h: 1, block: false },
+    { type: "fileStack", x: 13, y: 5, w: 1, h: 1, block: false },
+    { type: "poster", x: 4, y: 3, w: 2, h: 1, block: false }
+  ],
+  [
+    { type: "stall", x: 4, y: 6, w: 2, h: 1, block: false },
+    { type: "coinPile", x: 12, y: 7, w: 1, h: 1, block: false },
+    { type: "banner", x: 7, y: 3, w: 4, h: 1, block: false },
+    { type: "crate", x: 15, y: 10, w: 1, h: 1 }
+  ],
+  [
+    { type: "cable", x: 5, y: 6, w: 4, h: 1, block: false },
+    { type: "router", x: 12, y: 8, w: 1, h: 1, block: false },
+    { type: "stationLight", x: 15, y: 3, w: 1, h: 1, block: false },
+    { type: "paper", x: 6, y: 9, w: 1, h: 1, block: false }
+  ],
+  [
+    { type: "statue", x: 5, y: 7, w: 1, h: 1, block: false },
+    { type: "rope", x: 6, y: 7, w: 4, h: 1, block: false },
+    { type: "spotlight", x: 13, y: 5, w: 1, h: 1, block: false },
+    { type: "poster", x: 15, y: 8, w: 1, h: 2, block: false }
+  ],
+  [
+    { type: "sofa", x: 8, y: 10, w: 3, h: 1, block: false },
+    { type: "brokenPhone", x: 13, y: 6, w: 1, h: 1, block: false },
+    { type: "paper", x: 5, y: 7, w: 1, h: 1, block: false },
+    { type: "lamp", x: 15, y: 4, w: 1, h: 1, block: false }
+  ],
+  [
+    { type: "neon", x: 7, y: 4, w: 3, h: 1, block: false },
+    { type: "trash", x: 15, y: 7, w: 1, h: 1, block: false },
+    { type: "puddle", x: 10, y: 10, w: 2, h: 1, block: false },
+    { type: "chainPost", x: 4, y: 6, w: 1, h: 1, block: false }
+  ],
+  [
+    { type: "fileStack", x: 8, y: 8, w: 1, h: 1, block: false },
+    { type: "stamp", x: 12, y: 6, w: 1, h: 1, block: false },
+    { type: "safe", x: 15, y: 10, w: 1, h: 1 },
+    { type: "paper", x: 5, y: 6, w: 1, h: 1, block: false }
+  ],
+  [
+    { type: "chart", x: 6, y: 5, w: 2, h: 1, block: false },
+    { type: "fileStack", x: 12, y: 5, w: 1, h: 1, block: false },
+    { type: "terminal", x: 9, y: 10, w: 1, h: 1 },
+    { type: "paper", x: 10, y: 7, w: 1, h: 1, block: false }
+  ],
+  [
+    { type: "pinLine", x: 5, y: 5, w: 4, h: 1, block: false },
+    { type: "evidenceTape", x: 12, y: 8, w: 3, h: 1, block: false },
+    { type: "fileStack", x: 5, y: 10, w: 1, h: 1, block: false },
+    { type: "lamp", x: 15, y: 10, w: 1, h: 1, block: false }
+  ]
+];
+
+extraRoomProps.forEach((props, index) => {
+  if (scenes[index]) scenes[index].props.push(...props);
+});
+
+const sceneDetailProps = [
+  [
+    { type: "chart", x: 13, y: 5, w: 2, h: 1, block: false },
+    { type: "fileStack", x: 4, y: 9, w: 1, h: 1, block: false },
+    { type: "pinLine", x: 5, y: 10, w: 3, h: 1, block: false }
+  ],
+  [
+    { type: "coinPile", x: 10, y: 7, w: 1, h: 1, block: false },
+    { type: "banner", x: 5, y: 3, w: 5, h: 1, block: false },
+    { type: "paper", x: 12, y: 4, w: 1, h: 1, block: false },
+    { type: "scanner", x: 14, y: 6, w: 1, h: 1, block: false }
+  ],
+  [
+    { type: "cable", x: 6, y: 8, w: 5, h: 1, block: false },
+    { type: "stationLight", x: 15, y: 4, w: 1, h: 1, block: false },
+    { type: "router", x: 5, y: 7, w: 1, h: 1, block: false },
+    { type: "paper", x: 13, y: 9, w: 1, h: 1, block: false }
+  ],
+  [
+    { type: "spotlight", x: 5, y: 5, w: 1, h: 1, block: false },
+    { type: "rope", x: 4, y: 8, w: 3, h: 1, block: false },
+    { type: "statue", x: 14, y: 8, w: 1, h: 1, block: false },
+    { type: "poster", x: 12, y: 3, w: 2, h: 1, block: false }
+  ],
+  [
+    { type: "brokenPhone", x: 13, y: 6, w: 1, h: 1, block: false },
+    { type: "paper", x: 8, y: 5, w: 1, h: 1, block: false },
+    { type: "lamp", x: 15, y: 4, w: 1, h: 1, block: false },
+    { type: "fileStack", x: 5, y: 7, w: 1, h: 1, block: false }
+  ],
+  [
+    { type: "neon", x: 6, y: 4, w: 4, h: 1, block: false },
+    { type: "puddle", x: 10, y: 10, w: 2, h: 1, block: false },
+    { type: "trash", x: 15, y: 7, w: 1, h: 1, block: false },
+    { type: "chainPost", x: 4, y: 6, w: 1, h: 1, block: false }
+  ],
+  [
+    { type: "stamp", x: 12, y: 6, w: 1, h: 1, block: false },
+    { type: "safe", x: 15, y: 10, w: 1, h: 1, block: false },
+    { type: "fileStack", x: 8, y: 8, w: 1, h: 1, block: false },
+    { type: "paper", x: 5, y: 6, w: 1, h: 1, block: false }
+  ],
+  [
+    { type: "chart", x: 6, y: 5, w: 2, h: 1, block: false },
+    { type: "fileStack", x: 12, y: 5, w: 1, h: 1, block: false },
+    { type: "terminal", x: 9, y: 10, w: 1, h: 1, block: false },
+    { type: "paper", x: 10, y: 7, w: 1, h: 1, block: false }
+  ],
+  [
+    { type: "pinLine", x: 5, y: 5, w: 4, h: 1, block: false },
+    { type: "evidenceTape", x: 12, y: 8, w: 3, h: 1, block: false },
+    { type: "fileStack", x: 5, y: 10, w: 1, h: 1, block: false },
+    { type: "lamp", x: 15, y: 10, w: 1, h: 1, block: false }
+  ]
+];
+
+sceneDetailProps.forEach((props, index) => {
+  scenes[index].props.push(...props);
+});
+
 const q28to32 = caseFiles[6].questions;
 q28to32[1].placeholder = "";
 q28to32[2].placeholder = "dd/mm/yyyy ex. 31/12/2020";
@@ -1406,18 +1547,224 @@ const thaiNpcNames = [
   "ผู้กำกับ"
 ];
 
-thaiSceneCopy.forEach((text, index) => {
-  Object.assign(scenes[index], text);
-  scenes[index].npc.name = thaiNpcNames[index];
-  scenes[index].clue.evidence = thaiFileTitles[index];
-  caseFiles[index].title = thaiFileTitles[index];
-  caseFiles[index].rows = thaiEvidenceRows[index];
-  caseFiles[index].questions.forEach((question, questionIndex) => {
-    question.q = thaiQuestions[index][questionIndex];
-    const choiceKey = `${index}.${questionIndex}`;
-    if (thaiChoiceText[choiceKey]) question.choices = thaiChoiceText[choiceKey];
+const languagePacks = {
+  en: {
+    sceneCopy: sceneText,
+    fileTitles: formOnlyTitles,
+    evidenceRows: formOnlyRows,
+    questions: playerQuestionText,
+    choices: playerChoiceText,
+    npcNames
+  },
+  th: {
+    sceneCopy: thaiSceneCopy,
+    fileTitles: thaiFileTitles,
+    evidenceRows: thaiEvidenceRows,
+    questions: thaiQuestions,
+    choices: thaiChoiceText,
+    npcNames: thaiNpcNames
+  }
+};
+
+const uiText = {
+  th: {
+    htmlLang: "th",
+    langToggle: "ไทย / ENG",
+    logoSubtitle: "เกมสืบสวนเส้นทางเงิน",
+    guideKicker: "คู่มือภาคสนาม",
+    manualButton: "คู่มือ",
+    guideTitle: "Crypto Detective: Chain Trail",
+    manualTitle: "คู่มือการเล่น",
+    startButton: "เริ่มสืบสวน",
+    closeManual: "ปิดคู่มือ",
+    sceneLabel: "ด่าน",
+    evidenceLabel: "หลักฐาน",
+    objectiveLabel: "เป้าหมาย",
+    evidenceLogKicker: "Evidence Log",
+    close: "ปิด",
+    next: "ต่อไป",
+    interactButton: "ACT",
+    guideSections: [
+      ["จุดมุ่งหมาย", "ไล่เส้นทางเงินจากเบาะแสแรกไปจนถึงปลายทาง เก็บ Evidence File ในแต่ละห้อง แล้วตอบ Checkpoint ให้ผ่านก่อนเปิดประตูไปห้องถัดไป"],
+      ["ปุ่มควบคุม", "<kbd>WASD</kbd> / <kbd>Arrow</kbd> เดิน<br><kbd>E</kbd> / <kbd>Enter</kbd> / <kbd>Space</kbd> คุย ตรวจหลักฐาน หรือเลื่อนบทสนทนา<br><kbd>M</kbd> หรือปุ่ม <kbd>MAP</kbd> เปิดแผนที่"],
+      ["ต้องกดตรงไหน", "เดินไปใกล้ NPC หรือแฟ้มหลักฐานที่มีป้ายชื่อ แล้วกด <kbd>E</kbd>, <kbd>Enter</kbd> หรือ <kbd>Space</kbd> เพื่อคุยหรือเปิด Evidence File"],
+      ["การผ่านด่าน", "ตอบ Checkpoint ให้ถูกทุกข้อ ประตูขวาจะเปิดเพื่อไปห้องถัดไป ประตูซ้ายใช้เดินย้อนกลับไปห้องก่อนหน้า"]
+    ],
+    controlsHtml: `
+      <h2>Controls</h2>
+      <p><kbd>WASD</kbd> / <kbd>Arrow</kbd> เดิน</p>
+      <p><kbd>E</kbd> / <kbd>Enter</kbd> / <kbd>Space</kbd> คุย / ตรวจหลักฐาน / เลื่อนบทสนทนา</p>
+      <p><kbd>M</kbd> เปิดแผนที่</p>
+    `,
+    evidenceDockTitle: "หลักฐานที่เก็บแล้ว",
+    checkpointHeading: "คำถาม Checkpoint",
+    submit: "SUBMIT",
+    noEvidence: "ยังไม่มีหลักฐาน",
+    checkpointPassed: "ผ่าน checkpoint แล้ว ประตูเปิด",
+    answerEveryQuestion: "ตอบให้ถูกทุกข้อเพื่อเปิดประตู",
+    evidenceStatusDone: "Checkpoint ผ่านแล้ว",
+    evidenceStatusOpen: "เปิดดูรายละเอียด / ตอบ checkpoint",
+    stageDone: "Done",
+    stageEvidence: "Evidence",
+    stageActive: "Active",
+    stageLocked: "Locked route",
+    objectiveClearedFinal: "Case cleared. รายงานปิดคดีถูกส่งแล้ว",
+    objectiveCleared: "Checkpoint ผ่านแล้ว เดินไปประตูห้องถัดไป",
+    objectiveCollected: "เปิด Evidence Log แล้วตอบ checkpoint ให้ผ่าน",
+    noInteract: "ไม่มีอะไรให้ตรวจตรงนี้",
+    savedEvidence: "บันทึก evidence แล้ว เปิดแฟ้มเพื่อตอบ checkpoint",
+    reopenEvidence: "เปิด evidence detail อีกครั้ง",
+    checkpointBlocked: "ต้องตอบ checkpoint ให้ผ่านก่อน",
+    evidenceBlocked: "ต้องเก็บ evidence ก่อน",
+    entering: "เข้าสู่",
+    mapOpen: "เปิดแผนที่: กด M, E, Enter หรือ Space เพื่อปิด",
+    mapClosed: "ปิดแผนที่",
+    wrongPrefix: "ยังไม่ผ่าน: ตรวจข้อ",
+    wrongSuffix: "อีกครั้ง",
+    startToast: "กด E, Enter หรือ Space เพื่อคุยหรือตรวจหลักฐาน กด M เพื่อเปิดแผนที่",
+    languageChanged: "เปลี่ยนภาษาแล้ว",
+    mapTitle: "CASE MAP",
+    mapHelp: "M/E/Enter/Space ปิดแผนที่  |  ประตูซ้ายย้อนกลับ  |  ประตูขวาไปต่อเมื่อผ่าน checkpoint",
+    npcTag: "NPC",
+    evidenceTag: "แฟ้ม",
+    interactPrompt: "E / Enter / Space"
+  },
+  en: {
+    htmlLang: "en",
+    langToggle: "ENG / ไทย",
+    logoSubtitle: "Chain Trail Prototype",
+    guideKicker: "Field Manual",
+    manualButton: "Manual",
+    guideTitle: "Crypto Detective: Chain Trail",
+    manualTitle: "Field Manual",
+    startButton: "Start Investigation",
+    closeManual: "Close Manual",
+    sceneLabel: "Scene",
+    evidenceLabel: "Evidence",
+    objectiveLabel: "Objective",
+    evidenceLogKicker: "Evidence Log",
+    close: "Close",
+    next: "Next",
+    interactButton: "ACT",
+    guideSections: [
+      ["Objective", "Trace the money route from the first lead to the endpoint. Collect an Evidence File in each room, then pass the checkpoint before the next door opens."],
+      ["Controls", "<kbd>WASD</kbd> / <kbd>Arrow</kbd> Move<br><kbd>E</kbd> / <kbd>Enter</kbd> / <kbd>Space</kbd> Talk, inspect evidence, or advance dialogue<br><kbd>M</kbd> or <kbd>MAP</kbd> Open map"],
+      ["Where To Interact", "Walk near an NPC or the labeled evidence file, then press <kbd>E</kbd>, <kbd>Enter</kbd>, or <kbd>Space</kbd> to talk or open the Evidence File."],
+      ["Clear A Room", "Answer every checkpoint correctly. The right door opens to the next room, and the left door lets you backtrack."]
+    ],
+    controlsHtml: `
+      <h2>Controls</h2>
+      <p><kbd>WASD</kbd> / <kbd>Arrow</kbd> Move</p>
+      <p><kbd>E</kbd> / <kbd>Enter</kbd> / <kbd>Space</kbd> Talk / inspect / advance dialogue</p>
+      <p><kbd>M</kbd> Open map</p>
+    `,
+    evidenceDockTitle: "Collected Evidence",
+    checkpointHeading: "Checkpoint Questions",
+    submit: "SUBMIT",
+    noEvidence: "No evidence collected",
+    checkpointPassed: "Checkpoint passed. Door unlocked.",
+    answerEveryQuestion: "Answer every question correctly to unlock the door.",
+    evidenceStatusDone: "Checkpoint passed",
+    evidenceStatusOpen: "Open detail / answer checkpoint",
+    stageDone: "Done",
+    stageEvidence: "Evidence",
+    stageActive: "Active",
+    stageLocked: "Locked route",
+    objectiveClearedFinal: "Case cleared. Final report submitted.",
+    objectiveCleared: "Checkpoint passed. Walk to the next door.",
+    objectiveCollected: "Open the Evidence Log and pass the checkpoint.",
+    noInteract: "Nothing to inspect here.",
+    savedEvidence: "Evidence recorded. Open the file and answer the checkpoint.",
+    reopenEvidence: "Opening evidence detail again.",
+    checkpointBlocked: "Pass the checkpoint first.",
+    evidenceBlocked: "Collect the evidence first.",
+    entering: "Entering",
+    mapOpen: "Map open: press M, E, Enter, or Space to close",
+    mapClosed: "Map closed",
+    wrongPrefix: "Not yet: check question",
+    wrongSuffix: "again",
+    startToast: "Press E, Enter, or Space to talk/inspect. Press M for map.",
+    languageChanged: "Language changed",
+    mapTitle: "CASE MAP",
+    mapHelp: "M/E/Enter/Space close map  |  left door backtracks  |  right door opens after checkpoint",
+    npcTag: "NPC",
+    evidenceTag: "EVIDENCE",
+    interactPrompt: "E / Enter / Space"
+  }
+};
+
+let currentLanguage = localStorage.getItem("crypto-detective-language") || "th";
+let guideMode = "intro";
+
+function text(key) {
+  return uiText[currentLanguage][key];
+}
+
+function applyLanguage(language, options = {}) {
+  currentLanguage = languagePacks[language] ? language : "th";
+  localStorage.setItem("crypto-detective-language", currentLanguage);
+  const pack = languagePacks[currentLanguage];
+
+  pack.sceneCopy.forEach((copy, index) => {
+    Object.assign(scenes[index], copy);
+    scenes[index].npc.name = pack.npcNames[index];
+    scenes[index].clue.label = pack.fileTitles[index];
+    scenes[index].clue.evidence = pack.fileTitles[index];
+    caseFiles[index].title = pack.fileTitles[index];
+    caseFiles[index].rows = pack.evidenceRows[index];
+    caseFiles[index].questions.forEach((question, questionIndex) => {
+      question.q = pack.questions[index][questionIndex];
+      const choiceKey = `${index}.${questionIndex}`;
+      if (pack.choices[choiceKey]) question.choices = pack.choices[choiceKey];
+    });
   });
-});
+
+  updateUiLanguage();
+  if (options.render !== false) {
+    if (!dossier.hidden && state.activeDossier !== null) openDossier(state.activeDossier);
+    if (!dialogue.hidden) {
+      const scene = scenes[state.scene];
+      state.dialogueLines = scene.dialogue;
+      dialogueSpeaker.textContent = scene.npc.name;
+      dialogueText.textContent = state.dialogueLines[state.dialogueIndex] || "";
+    }
+    renderHud();
+    showToast(text("languageChanged"));
+  }
+}
+
+function updateUiLanguage() {
+  document.documentElement.lang = text("htmlLang");
+  languageToggle.textContent = text("langToggle");
+  guideLanguageToggle.textContent = text("langToggle");
+  guideKicker.textContent = text("guideKicker");
+  logoSubtitle.textContent = text("logoSubtitle");
+  sceneStatLabel.textContent = text("sceneLabel");
+  evidenceStatLabel.textContent = text("evidenceLabel");
+  objectiveLabel.textContent = text("objectiveLabel");
+  evidenceLogKicker.textContent = text("evidenceLogKicker");
+  manualToggle.textContent = text("manualButton");
+  controlsPanel.innerHTML = text("controlsHtml");
+  evidenceDetailHeading.textContent = "Evidence Detail";
+  checkpointHeading.textContent = text("checkpointHeading");
+  checkpointSubmit.textContent = text("submit");
+  closeDossier.textContent = text("close").toUpperCase();
+  dialogueNext.textContent = text("next").toUpperCase();
+  touchInteract.textContent = text("interactButton");
+  document.querySelector(".evidence-dock h3").textContent = text("evidenceDockTitle");
+  renderGuide();
+}
+
+function renderGuide() {
+  guideTitle.textContent = guideMode === "manual" ? text("manualTitle") : text("guideTitle");
+  guidePrimary.textContent = guideMode === "manual" ? text("closeManual") : text("startButton");
+  guideGrid.innerHTML = text("guideSections").map(([title, body]) => `
+    <section>
+      <h3>${title}</h3>
+      <p>${body}</p>
+    </section>
+  `).join("");
+}
 
 const state = {
   scene: 0,
@@ -1431,6 +1778,8 @@ const state = {
   dialogueLines: [],
   dialogueIndex: 0
 };
+
+applyLanguage(currentLanguage, { render: false });
 
 function resetPlayer(spawn = "default") {
   const scene = scenes[state.scene];
@@ -1467,6 +1816,8 @@ function drawScene() {
   drawClue(scene.clue);
   drawNpc(scene.npc);
   drawPlayer();
+  drawEntityTags(scene);
+  drawInteractionHint(scene);
   if (state.mapOpen) drawWorldMap();
 }
 
@@ -1505,6 +1856,32 @@ function drawProp(prop) {
     folder: "#f4cb5f",
     archive: "#8c9270",
     warTable: "#d9c480",
+    chair: "#6f5660",
+    paper: "#fffaf0",
+    lamp: "#f4cb5f",
+    evidenceTape: "#f4cb5f",
+    scanner: "#9fe0dd",
+    fileStack: "#f8efc8",
+    poster: "#e8dfb0",
+    stall: "#d9c480",
+    coinPile: "#f4cb5f",
+    banner: "#dd5f4d",
+    cable: "#17212b",
+    router: "#70808c",
+    stationLight: "#9fe0dd",
+    statue: "#8c9270",
+    rope: "#806332",
+    spotlight: "#f4cb5f",
+    sofa: "#8e4f45",
+    brokenPhone: "#263445",
+    neon: "#315f9b",
+    trash: "#4c5963",
+    puddle: "#315f9b",
+    chainPost: "#7b8794",
+    stamp: "#dd5f4d",
+    safe: "#4c5963",
+    chart: "#fffaf0",
+    pinLine: "#fffaf0",
     rug: prop.color || "#8e4f45"
   }[prop.type] || "#e8dfb0";
 
@@ -1554,6 +1931,121 @@ function drawProp(prop) {
     ctx.fillRect(px + 8, py + 10, prop.w * TILE - 16, 4);
     ctx.fillRect(px + 8, py + 20, prop.w * TILE - 26, 4);
   }
+  if (prop.type === "chair") {
+    ctx.fillStyle = "#17212b";
+    ctx.fillRect(px + 8, py + 8, 16, 5);
+    ctx.fillRect(px + 7, py + 19, 18, 5);
+    ctx.fillRect(px + 9, py + 13, 4, 9);
+    ctx.fillRect(px + 20, py + 13, 4, 9);
+  }
+  if (prop.type === "paper") {
+    ctx.fillStyle = "#17212b";
+    ctx.fillRect(px + 9, py + 11, 14, 2);
+    ctx.fillRect(px + 9, py + 17, 11, 2);
+    ctx.fillRect(px + 9, py + 23, 9, 2);
+  }
+  if (prop.type === "lamp" || prop.type === "stationLight" || prop.type === "spotlight") {
+    ctx.fillStyle = "#fff8db";
+    ctx.fillRect(px + 10, py + 7, 12, 9);
+    ctx.fillStyle = "#17212b";
+    ctx.fillRect(px + 14, py + 16, 4, 10);
+    ctx.fillRect(px + 9, py + 26, 14, 3);
+  }
+  if (prop.type === "evidenceTape" || prop.type === "banner") {
+    ctx.fillStyle = prop.type === "banner" ? "#fff8db" : "#17212b";
+    for (let i = 0; i < prop.w; i += 1) {
+      ctx.fillRect(px + i * TILE + 5, py + 12, 10, 4);
+      ctx.fillRect(px + i * TILE + 18, py + 18, 9, 4);
+    }
+  }
+  if (prop.type === "scanner" || prop.type === "router") {
+    ctx.fillStyle = "#17212b";
+    ctx.fillRect(px + 7, py + 12, 18, 9);
+    ctx.fillStyle = "#6bd17d";
+    ctx.fillRect(px + 10, py + 8, 12, 4);
+  }
+  if (prop.type === "fileStack") {
+    ctx.fillStyle = "#315f9b";
+    ctx.fillRect(px + 7, py + 10, 18, 4);
+    ctx.fillStyle = "#dd5f4d";
+    ctx.fillRect(px + 9, py + 16, 16, 4);
+    ctx.fillStyle = "#f4cb5f";
+    ctx.fillRect(px + 6, py + 22, 19, 4);
+  }
+  if (prop.type === "poster" || prop.type === "chart") {
+    ctx.fillStyle = "#315f9b";
+    ctx.fillRect(px + 8, py + 8, prop.w * TILE - 16, 4);
+    ctx.fillStyle = "#dd5f4d";
+    ctx.fillRect(px + 8, py + 17, prop.w * TILE - 24, 4);
+  }
+  if (prop.type === "stall") {
+    ctx.fillStyle = "#dd5f4d";
+    ctx.fillRect(px + 2, py + 5, prop.w * TILE - 4, 7);
+    ctx.fillStyle = "#fff8db";
+    for (let i = 0; i < prop.w; i += 1) ctx.fillRect(px + i * TILE + 8, py + 18, 12, 8);
+  }
+  if (prop.type === "coinPile") {
+    ctx.fillStyle = "#fff8db";
+    ctx.fillRect(px + 8, py + 18, 7, 5);
+    ctx.fillRect(px + 15, py + 12, 7, 5);
+    ctx.fillRect(px + 18, py + 21, 7, 5);
+  }
+  if (prop.type === "cable" || prop.type === "rope" || prop.type === "pinLine") {
+    ctx.strokeStyle = prop.type === "pinLine" ? "#dd5f4d" : "#17212b";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(px + 8, py + 18);
+    ctx.lineTo(px + prop.w * TILE - 8, py + 14);
+    ctx.stroke();
+    if (prop.type === "pinLine") {
+      ctx.fillStyle = "#f4cb5f";
+      ctx.fillRect(px + 7, py + 11, 6, 6);
+      ctx.fillRect(px + prop.w * TILE - 14, py + 9, 6, 6);
+    }
+  }
+  if (prop.type === "statue" || prop.type === "chainPost") {
+    ctx.fillStyle = "#17212b";
+    ctx.fillRect(px + 13, py + 8, 6, 14);
+    ctx.fillRect(px + 8, py + 22, 16, 5);
+  }
+  if (prop.type === "sofa") {
+    ctx.fillStyle = "#17212b";
+    ctx.fillRect(px + 7, py + 9, prop.w * TILE - 14, 5);
+    ctx.fillRect(px + 5, py + 18, prop.w * TILE - 10, 8);
+  }
+  if (prop.type === "brokenPhone") {
+    ctx.fillStyle = "#9fe0dd";
+    ctx.fillRect(px + 11, py + 8, 10, 16);
+    ctx.strokeStyle = "#dd5f4d";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(px + 12, py + 10);
+    ctx.lineTo(px + 20, py + 22);
+    ctx.stroke();
+  }
+  if (prop.type === "neon") {
+    ctx.fillStyle = "#f4cb5f";
+    ctx.fillRect(px + 8, py + 9, prop.w * TILE - 16, 5);
+    ctx.fillStyle = "#9fe0dd";
+    ctx.fillRect(px + 12, py + 19, prop.w * TILE - 30, 4);
+  }
+  if (prop.type === "trash" || prop.type === "safe") {
+    ctx.fillStyle = "#17212b";
+    ctx.fillRect(px + 9, py + 9, 14, 16);
+    ctx.fillStyle = prop.type === "safe" ? "#f4cb5f" : "#70808c";
+    ctx.fillRect(px + 13, py + 13, 6, 6);
+  }
+  if (prop.type === "puddle") {
+    ctx.fillStyle = "rgba(159, 224, 221, 0.65)";
+    ctx.fillRect(px + 6, py + 13, prop.w * TILE - 12, 8);
+    ctx.fillRect(px + 15, py + 21, prop.w * TILE - 28, 4);
+  }
+  if (prop.type === "stamp") {
+    ctx.fillStyle = "#17212b";
+    ctx.fillRect(px + 12, py + 8, 8, 10);
+    ctx.fillStyle = "#dd5f4d";
+    ctx.fillRect(px + 8, py + 20, 16, 5);
+  }
 }
 
 function sceneDoors(scene) {
@@ -1594,6 +2086,57 @@ function drawClue(clue) {
 
 function drawNpc(npc) {
   drawSprite(npc.char, "down", 1, npc.x * TILE + 4, npc.y * TILE);
+}
+
+function truncateTag(value, limit = 18) {
+  return value.length > limit ? `${value.slice(0, limit - 1)}...` : value;
+}
+
+function drawTag(tileX, tileY, label, variant) {
+  const tagText = truncateTag(label);
+  ctx.save();
+  ctx.font = "700 11px IBM Plex Sans Thai, sans-serif";
+  const paddingX = 6;
+  const width = Math.min(154, Math.max(60, ctx.measureText(tagText).width + paddingX * 2));
+  const height = 22;
+  const x = Math.max(6, Math.min(canvas.width - width - 6, tileX * TILE + TILE / 2 - width / 2));
+  const y = Math.max(6, tileY * TILE - 24);
+  ctx.fillStyle = variant === "evidence" ? "#f4cb5f" : "#fff8db";
+  ctx.strokeStyle = "#17212b";
+  ctx.lineWidth = 3;
+  ctx.fillRect(x, y, width, height);
+  ctx.strokeRect(x + 1, y + 1, width - 2, height - 2);
+  ctx.fillStyle = "#111923";
+  ctx.fillText(tagText, x + paddingX, y + 15);
+  ctx.restore();
+}
+
+function drawEntityTags(scene) {
+  drawTag(scene.npc.x, scene.npc.y, `${text("npcTag")}: ${scene.npc.name}`, "npc");
+  drawTag(scene.clue.x, scene.clue.y, `${text("evidenceTag")}: ${scene.clue.label}`, "evidence");
+}
+
+function drawInteractionHint(scene) {
+  if (!dialogue.hidden || !dossier.hidden || state.mapOpen || !guideOverlay.hidden) return;
+  const p = state.player;
+  const target = near(p, scene.npc) ? scene.npc : near(p, scene.clue) ? scene.clue : null;
+  if (!target) return;
+  const label = text("interactPrompt");
+  ctx.save();
+  ctx.font = "700 10px 'Press Start 2P', 'IBM Plex Sans Thai', monospace";
+  const width = Math.min(196, ctx.measureText(label).width + 20);
+  const x = Math.max(8, Math.min(canvas.width - width - 8, target.x * TILE + TILE / 2 - width / 2));
+  const y = Math.min(canvas.height - 34, target.y * TILE + TILE + 6);
+  ctx.fillStyle = "#111923";
+  ctx.fillRect(x + 4, y + 4, width, 24);
+  ctx.fillStyle = "#f4cb5f";
+  ctx.strokeStyle = "#fff8db";
+  ctx.lineWidth = 3;
+  ctx.fillRect(x, y, width, 24);
+  ctx.strokeRect(x + 1, y + 1, width - 2, 22);
+  ctx.fillStyle = "#111923";
+  ctx.fillText(label, x + 10, y + 16);
+  ctx.restore();
 }
 
 function drawPlayer() {
@@ -1683,7 +2226,7 @@ function interact() {
     collectEvidence(scene);
     return;
   }
-  showToast("ไม่มีอะไรให้ตรวจตรงนี้");
+  showToast(text("noInteract"));
 }
 
 function openDialogue(speaker, lines) {
@@ -1706,9 +2249,9 @@ function nextDialogue() {
 function collectEvidence(scene) {
   if (!state.collected.has(state.scene)) {
     state.collected.add(state.scene);
-    showToast("บันทึก evidence แล้ว เปิดแฟ้มเพื่อตอบ checkpoint");
+    showToast(text("savedEvidence"));
   } else {
-    showToast("เปิด evidence detail อีกครั้ง");
+    showToast(text("reopenEvidence"));
   }
   renderHud();
   openDossier(state.scene);
@@ -1729,10 +2272,10 @@ function maybeExit() {
 
   if (!state.completed.has(state.scene)) {
       if (state.collected.has(state.scene)) {
-        showToast("ต้องตอบ checkpoint ให้ผ่านก่อน");
+        showToast(text("checkpointBlocked"));
         openDossier(state.scene);
       } else {
-        showToast("ต้องเก็บ evidence ก่อน");
+        showToast(text("evidenceBlocked"));
       }
       state.player.x = door.x - 1;
       state.player.px = state.player.x * TILE;
@@ -1744,25 +2287,27 @@ function maybeExit() {
 function enterScene(sceneIndex, spawn) {
   state.scene = Math.max(0, Math.min(sceneIndex, scenes.length - 1));
   resetPlayer(spawn);
-  showToast(`เข้าสู่ ${scenes[state.scene].title}`);
+  showToast(`${text("entering")} ${scenes[state.scene].title}`);
   renderHud();
 }
 
 function toggleMap() {
   if (!dialogue.hidden || !dossier.hidden || !guideOverlay.hidden) return;
   state.mapOpen = !state.mapOpen;
-  showToast(state.mapOpen ? "เปิดแผนที่: กด M หรือ E เพื่อปิด" : "ปิดแผนที่");
+  showToast(state.mapOpen ? text("mapOpen") : text("mapClosed"));
 }
 
 function openManual() {
-  guideTitle.textContent = "คู่มือการเล่น";
-  guidePrimary.textContent = "Close Manual";
+  guideMode = "manual";
+  renderGuide();
   guideOverlay.hidden = false;
 }
 
 function closeGuide() {
   guideOverlay.hidden = true;
   manualToggle.hidden = false;
+  guideMode = "intro";
+  renderGuide();
   canvas.focus();
 }
 
@@ -1775,9 +2320,9 @@ function drawWorldMap() {
 
   ctx.fillStyle = "#fff8db";
   ctx.font = "700 20px IBM Plex Sans Thai, sans-serif";
-  ctx.fillText("CASE MAP", 54, 76);
+  ctx.fillText(text("mapTitle"), 54, 76);
   ctx.font = "500 14px IBM Plex Sans Thai, sans-serif";
-  ctx.fillText("M/E ปิดแผนที่  |  ประตูซ้ายย้อนกลับ  |  ประตูขวาไปต่อเมื่อผ่าน checkpoint", 54, 102);
+  ctx.fillText(text("mapHelp"), 54, 102);
 
   const startX = 70;
   const startY = 150;
@@ -1804,7 +2349,7 @@ function drawWorldMap() {
     ctx.font = "700 12px IBM Plex Sans Thai, sans-serif";
     ctx.fillText(`${index + 1}. ${scene.name}`, x + 8, y + 20);
     ctx.font = "500 11px IBM Plex Sans Thai, sans-serif";
-    ctx.fillText(completed ? "Done" : collected ? "Evidence" : current ? "Current" : "Locked", x + 8, y + 40);
+    ctx.fillText(completed ? text("stageDone") : collected ? text("stageEvidence") : current ? text("stageActive") : text("stageLocked"), x + 8, y + 40);
   });
 }
 
@@ -1833,8 +2378,8 @@ function openDossier(sceneIndex) {
   checkpointForm.innerHTML = file.questions.map((question, qIndex) => renderQuestion(question, qIndex, sceneIndex)).join("");
   checkpointResult.className = state.completed.has(sceneIndex) ? "ok" : "";
   checkpointResult.textContent = state.completed.has(sceneIndex)
-    ? "ผ่าน checkpoint แล้ว ประตูเปิด"
-    : "ตอบให้ถูกทุกข้อเพื่อเปิดประตู";
+    ? text("checkpointPassed")
+    : text("answerEveryQuestion");
   dossier.hidden = false;
 }
 
@@ -1919,7 +2464,7 @@ function submitCheckpoint(event) {
   });
   if (wrong.length) {
     checkpointResult.className = "bad";
-    checkpointResult.textContent = `ยังไม่ผ่าน: ตรวจข้อ ${wrong.join(", ")} อีกครั้ง`;
+    checkpointResult.textContent = `${text("wrongPrefix")} ${wrong.join(", ")} ${text("wrongSuffix")}`;
     return;
   }
   state.completed.add(sceneIndex);
@@ -1940,6 +2485,11 @@ function clearCheckpointInputs() {
   });
 }
 
+function isFormControlTarget(event) {
+  const tagName = event.target?.tagName;
+  return event.target?.isContentEditable || ["INPUT", "TEXTAREA", "SELECT", "BUTTON"].includes(tagName);
+}
+
 function inputName(event) {
   const codeMap = {
     ArrowUp: "up",
@@ -1952,7 +2502,9 @@ function inputName(event) {
     KeyD: "right",
     KeyE: "interact",
     KeyM: "map",
-    Enter: "enter"
+    Enter: "interact",
+    NumpadEnter: "interact",
+    Space: "interact"
   };
   if (codeMap[event.code]) return codeMap[event.code];
   const key = event.key.toLowerCase();
@@ -1963,7 +2515,9 @@ function inputName(event) {
     d: "right",
     e: "interact",
     m: "map",
-    enter: "enter",
+    enter: "interact",
+    " ": "interact",
+    spacebar: "interact",
     arrowup: "up",
     arrowdown: "down",
     arrowleft: "left",
@@ -1988,10 +2542,10 @@ function renderHud() {
   sceneTitle.textContent = scene.title;
   objectiveText.textContent = state.completed.has(state.scene)
     ? state.scene === scenes.length - 1
-      ? "Case cleared. รายงานปิดคดีถูกส่งแล้ว"
-      : "Checkpoint ผ่านแล้ว เดินไปประตูห้องถัดไป"
+      ? text("objectiveClearedFinal")
+      : text("objectiveCleared")
     : state.collected.has(state.scene)
-      ? "เปิด Evidence Log แล้วตอบ checkpoint ให้ผ่าน"
+      ? text("objectiveCollected")
       : scene.objective;
   const collectedIndexes = [...state.collected].sort((a, b) => a - b);
   evidenceLog.innerHTML = collectedIndexes.length
@@ -1999,11 +2553,11 @@ function renderHud() {
       <li>
         <button class="evidence-item ${state.completed.has(sceneIndex) ? "done" : ""}" type="button" data-evidence="${sceneIndex}">
           ${caseFiles[sceneIndex].title}<br>
-          ${state.completed.has(sceneIndex) ? "Checkpoint passed" : "Open detail / answer checkpoint"}
+          ${state.completed.has(sceneIndex) ? text("evidenceStatusDone") : text("evidenceStatusOpen")}
         </button>
       </li>
     `).join("")
-    : "<li>ยังไม่มีหลักฐาน</li>";
+    : `<li>${text("noEvidence")}</li>`;
   document.querySelectorAll("[data-evidence]").forEach((button) => {
     button.addEventListener("click", () => openDossier(Number(button.dataset.evidence)));
   });
@@ -2013,7 +2567,7 @@ function renderHud() {
     const active = index === state.scene;
     return `<div class="stage-chip ${active ? "active" : ""} ${done ? "done" : ""}">
       <span>${index + 1}</span>
-      <span>${item.name}<br>${done ? "Done" : collected ? "Evidence" : active ? "Active" : "Locked route"}</span>
+      <span>${item.name}<br>${done ? text("stageDone") : collected ? text("stageEvidence") : active ? text("stageActive") : text("stageLocked")}</span>
     </div>`;
   }).join("");
 }
@@ -2025,7 +2579,13 @@ function loop(now) {
 }
 
 window.addEventListener("keydown", (event) => {
+  if (isFormControlTarget(event)) return;
   const key = inputName(event);
+  if (key === "interact" && !guideOverlay.hidden) {
+    event.preventDefault();
+    closeGuide();
+    return;
+  }
   const direction = directionTuple(key);
   if (direction) {
     event.preventDefault();
@@ -2040,12 +2600,9 @@ window.addEventListener("keydown", (event) => {
     event.preventDefault();
     toggleMap();
   }
-  if (key === "enter") {
-    if (!dialogue.hidden) nextDialogue();
-  }
   if (event.code === "Escape" && state.mapOpen) {
     state.mapOpen = false;
-    showToast("ปิดแผนที่");
+    showToast(text("mapClosed"));
   }
   if (event.code === "Escape" && !guideOverlay.hidden && !manualToggle.hidden) {
     closeGuide();
@@ -2066,6 +2623,12 @@ checkpointForm.addEventListener("submit", submitCheckpoint);
 consoleEl.addEventListener("pointerdown", () => canvas.focus());
 guidePrimary.addEventListener("click", closeGuide);
 manualToggle.addEventListener("click", openManual);
+languageToggle.addEventListener("click", () => {
+  applyLanguage(currentLanguage === "th" ? "en" : "th");
+});
+guideLanguageToggle.addEventListener("click", () => {
+  applyLanguage(currentLanguage === "th" ? "en" : "th");
+});
 
 document.querySelectorAll("[data-control]").forEach((button) => {
   button.addEventListener("pointerdown", (event) => {
@@ -2085,7 +2648,7 @@ document.querySelectorAll("[data-control]").forEach((button) => {
 function startGame() {
   resetPlayer();
   renderHud();
-  showToast("กด E เพื่อคุยหรือตรวจหลักฐาน กด M เพื่อเปิดแผนที่");
+  showToast(text("startToast"));
   if (guideOverlay.hidden) canvas.focus();
   loop();
 }

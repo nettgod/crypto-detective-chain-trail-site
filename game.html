@@ -4,20 +4,24 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Crypto Detective: Chain Trail</title>
+    <link rel="icon" href="data:,">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="game.css?v=20260519-thai1">
+    <link rel="stylesheet" href="game.css?v=20260520-controls1">
   </head>
   <body>
     <div class="guide-overlay" id="guideOverlay">
       <div class="guide-card">
-        <div>
-          <span class="pixel-kicker">Field Manual</span>
-          <h2 id="guideTitle">Crypto Detective: Chain Trail</h2>
+        <div class="guide-headline">
+          <div>
+            <span class="pixel-kicker" id="guideKicker">Field Manual</span>
+            <h2 id="guideTitle">Crypto Detective: Chain Trail</h2>
+          </div>
+          <button class="language-toggle guide-language-toggle" id="guideLanguageToggle" type="button" aria-label="Switch language">ไทย / ENG</button>
         </div>
 
-        <div class="guide-grid">
+        <div class="guide-grid" id="guideGrid">
           <section>
             <h3>จุดมุ่งหมาย</h3>
             <p>ไล่เส้นทางเงินจากเบาะแสแรกไปจนถึงปลายทาง เก็บ Evidence File ในแต่ละห้อง แล้วตอบ Checkpoint ให้ผ่านก่อนเปิดประตูไปห้องถัดไป</p>
@@ -53,17 +57,21 @@
           <span>CD</span>
           <div>
             <h1>Crypto Detective</h1>
-            <p>Chain Trail Prototype</p>
+            <p id="logoSubtitle">Chain Trail Prototype</p>
           </div>
+        </div>
+
+        <div class="utility-row">
+          <button class="language-toggle" id="languageToggle" type="button" aria-label="Switch language">ไทย / ENG</button>
         </div>
 
         <div class="stat-box">
           <div>
-            <small>Scene</small>
+            <small id="sceneStatLabel">Scene</small>
             <strong id="sceneStat">1/9</strong>
           </div>
           <div>
-            <small>Evidence</small>
+            <small id="evidenceStatLabel">Evidence</small>
             <strong id="evidenceStat">0</strong>
           </div>
         </div>
@@ -86,7 +94,7 @@
             <h2 id="sceneTitle">Chief's Office</h2>
           </div>
           <div class="objective-card">
-            <small>Objective</small>
+            <small id="objectiveLabel">Objective</small>
             <strong id="objectiveText">อ่านแฟ้มคดี</strong>
           </div>
         </header>
@@ -103,7 +111,7 @@
           <div class="touch-controls" aria-label="On-screen controls">
             <button type="button" data-control="up">▲</button>
             <button type="button" data-control="left">◀</button>
-            <button type="button" data-control="interact">E</button>
+            <button type="button" data-control="interact" id="touchInteract">E</button>
             <button type="button" data-control="right">▶</button>
             <button type="button" data-control="down">▼</button>
             <button type="button" data-control="map">MAP</button>
@@ -112,7 +120,7 @@
 
         <section class="evidence-dock">
           <div>
-            <span class="pixel-kicker">Evidence Log</span>
+            <span class="pixel-kicker" id="evidenceLogKicker">Evidence Log</span>
             <h3>หลักฐานที่เก็บแล้ว</h3>
           </div>
           <ol id="evidenceLog"></ol>
@@ -131,14 +139,14 @@
         </div>
         <div class="dossier-body">
           <section>
-            <h3>Evidence Detail</h3>
+            <h3 id="evidenceDetailHeading">Evidence Detail</h3>
             <div id="evidenceDetail"></div>
           </section>
           <section>
-            <h3>คำถาม Checkpoint</h3>
+            <h3 id="checkpointHeading">คำถาม Checkpoint</h3>
             <form id="checkpointForm"></form>
             <div class="checkpoint-actions">
-              <button class="pixel-small primary" type="submit" form="checkpointForm">SUBMIT</button>
+              <button class="pixel-small primary" id="checkpointSubmit" type="submit" form="checkpointForm">SUBMIT</button>
               <span id="checkpointResult"></span>
             </div>
           </section>
@@ -146,6 +154,6 @@
       </div>
     </div>
 
-    <script src="game.js?v=20260519-thai1"></script>
+    <script src="game.js?v=20260520-controls1"></script>
   </body>
 </html>
